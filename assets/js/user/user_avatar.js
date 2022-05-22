@@ -37,30 +37,29 @@ $(function () {
 
   // 上传图片
   //  为确定按钮绑定点击事件
-  $("#btnUpload").click((e) => {
-    // 1、拿到用户裁切之后的头像
-    // 直接复制代码即可
-    const dataURL = $image.cropper("getCroppedCanvas", {
-        // 创建一个 Canvas 画布
-        width: 100,
-        height: 100,
-      })
-      .toDataURL("image/png");
-    // 2、发送 ajax 请求，发送到服务器
-    $.ajax({
-      type: "POST",
+$("#btnUpload").click((e) => {
+  // 1、拿到用户裁切之后的头像
+  // 直接复制代码即可
+  const dataURL = $image.cropper("getCroppedCanvas", {
+      // 创建一个 Canvas 画布
+      width: 100,
+      height: 100,
+  })
+  .toDataURL("image/png");
+  // 2、发送 ajax 请求，发送到服务器
+  $.ajax({
+      method: "POST",
       url: "/my/update/avatar",
       data: {
-        avatar: dataURL,
+          avatar: dataURL,
       },
       success: function (res) {
-        if (res.status !== 0) {
-          return layer.msg("更换头像失败！");
-        }
-        layer.msg("更换头像成功！");
-        // 调用父级的 getUserInfo
-        window.parent.getUserInfo();
+          if (res.status !== 0) {
+              return layer.msg("更换头像失败！");
+          }
+          layer.msg("更换头像成功！");
+          window.parent.getUserInfo();
       },
-    });
   });
+});
 });
